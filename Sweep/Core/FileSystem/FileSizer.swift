@@ -105,3 +105,21 @@ struct ScanProgress: Sendable, Equatable {
 func mainActorProgress<Value: Sendable>(_ apply: @escaping @MainActor (Value) -> Void) -> @Sendable (Value) -> Void {
     { value in Task { @MainActor in apply(value) } }
 }
+
+/// Thread-safe counter used for progress reporting across task group children.
+final class Counter: @unchecked Sendable {
+    private let lock = NSLock()
+    private var count = 0.0
+
+    var value: Double {
+        lock.lock(); defer { lock.unlock() }
+        return count
+    }
+
+    @discardableResult
+    func increment(by amount: Double = 1) -> Double {
+        lock.lock(); defer { lock.unlock() }
+        count += amount
+        return count
+    }
+}

@@ -17,6 +17,8 @@ final class AppModel {
     let activity: ActivityLogViewModel
     let uninstaller: UninstallerViewModel
     let spaceMap: SpaceMapViewModel
+    let duplicates: DuplicatesViewModel
+    let largeFiles: LargeFilesViewModel
 
     static let isRunningTests = ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
 
@@ -32,6 +34,8 @@ final class AppModel {
         activity = ActivityLogViewModel(deletion: deletion)
         uninstaller = UninstallerViewModel(deletion: deletion, permissions: permissions)
         spaceMap = SpaceMapViewModel(deletion: deletion, permissions: permissions)
+        duplicates = DuplicatesViewModel(deletion: deletion, permissions: permissions)
+        largeFiles = LargeFilesViewModel(deletion: deletion, permissions: permissions)
     }
 
     func completeOnboarding() {
@@ -45,6 +49,10 @@ final class AppModel {
         switch module {
         case .junk:
             junk.phase == .results && junk.totalFound > 0 ? ByteFormat.string(junk.totalFound) : nil
+        case .duplicates:
+            duplicates.phase == .results && duplicates.totalWasted > 0 ? ByteFormat.string(duplicates.totalWasted) : nil
+        case .largeFiles:
+            largeFiles.phase == .results ? "\(largeFiles.visibleFiles.count)" : nil
         case .uninstaller:
             uninstaller.hasLoaded ? "\(uninstaller.apps.count)" : nil
         default:

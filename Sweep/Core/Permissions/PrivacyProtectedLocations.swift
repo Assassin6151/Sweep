@@ -6,8 +6,18 @@ import Foundation
 struct PrivacyProtectedLocations: Sendable {
     let paths: SystemPaths
     let hasFullDiskAccess: Bool
+    private let protectedRoots: [String]
+    private let cachesPrefixes: [String]
 
-    private var protectedRoots: [String] {
+    init(paths: SystemPaths, hasFullDiskAccess: Bool) {
+        self.paths = paths
+        self.hasFullDiskAccess = hasFullDiskAccess
+        // Both literal and resolved forms, so enumerators that report `/private/var/…` still match.
+        protectedRoots = Self.roots(for: paths).flatMap(ProtectedPaths.pathAndResolved)
+        cachesPrefixes = ProtectedPaths.pathAndResolved(paths.userLibrary.path + "/Caches").map { $0 + "/" }
+    }
+
+    private static func roots(for paths: SystemPaths) -> [String] {
         let library = paths.userLibrary.path
         let relative = [
             "Containers", "Group Containers", "Mail", "Messages", "Safari", "Calendars", "Reminders",
@@ -27,8 +37,9 @@ struct PrivacyProtectedLocations: Sendable {
         let path = ProtectedPaths.normalize(url.path)
         if protectedRoots.contains(where: { path == $0 || path.hasPrefix($0 + "/") }) { return true }
         // Apple's own caches (Music, Photos, Safari, …) are protected individually.
-        let caches = paths.userLibrary.path + "/Caches/"
-        if path.hasPrefix(caches), path.dropFirst(caches.count).hasPrefix("com.apple.") { return true }
+        for caches in cachesPrefixes where path.hasPrefix(caches) && path.dropFirst(caches.count).hasPrefix("com.apple.") {
+            return true
+        }
         // Photo libraries are packages full of protected data.
         if path.lowercased().contains(".photoslibrary") { return true }
         return false

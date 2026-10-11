@@ -135,21 +135,3 @@ struct JunkScanService: Sendable {
         }
     }
 }
-
-/// Thread-safe counter used for progress reporting across task group children.
-final class Counter: @unchecked Sendable {
-    private let lock = NSLock()
-    private var count = 0.0
-
-    var value: Double {
-        lock.lock(); defer { lock.unlock() }
-        return count
-    }
-
-    @discardableResult
-    func increment() -> Double {
-        lock.lock(); defer { lock.unlock() }
-        count += 1
-        return count
-    }
-}

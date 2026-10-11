@@ -36,6 +36,10 @@ struct ModuleContainer: View {
                 UninstallerView()
             case .spaceMap:
                 SpaceMapView()
+            case .duplicates:
+                DuplicatesView()
+            case .largeFiles:
+                LargeFilesView()
             case .activity:
                 ActivityLogView()
             case .permissions:

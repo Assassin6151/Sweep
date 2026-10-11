@@ -143,6 +143,16 @@ struct ProtectedPaths: Sendable {
         return standardized
     }
 
+    /// The literal path and, if different, the fully resolved path (e.g. `/var/…` → `/private/var/…`).
+    static func pathAndResolved(_ path: String) -> [String] {
+        let literal = normalize(path)
+        guard let resolved = realpath(literal, nil) else { return [literal] }
+        defer { free(resolved) }
+        // Not normalized again: `standardizedFileURL` would strip the `/private` prefix we want to keep.
+        let resolvedPath = String(cString: resolved)
+        return resolvedPath == literal ? [literal] : [literal, resolvedPath]
+    }
+
     /// The literal path plus the path with its parent resolved, so a symlinked parent cannot sneak
     /// a protected location past the checks. The last component is not resolved: trashing a
     /// symlink only moves the link itself.
