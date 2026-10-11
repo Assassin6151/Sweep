@@ -24,3 +24,8 @@ extension Date {
         return formatter.localizedString(for: self, relativeTo: .now)
     }
 }
+
+/// "1 Eintrag" / "3 Einträge"
+func counted(_ count: Int, _ singular: String, _ plural: String) -> String {
+    "\(count) \(count == 1 ? singular : plural)"
+}

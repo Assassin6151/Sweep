@@ -77,9 +77,9 @@ private struct ActivityEntryRow: View {
                         Text("·")
                         Text(entry.action.title)
                         Text("·")
-                        Text("\(entry.succeededCount) Einträge")
+                        Text(counted(entry.succeededCount, "Eintrag", "Einträge"))
                         if entry.problemCount > 0 {
-                            Tag(text: "\(entry.problemCount) Probleme", color: .orange)
+                            Tag(text: counted(entry.problemCount, "Problem", "Probleme"), color: .orange)
                         }
                     }
                     .font(.caption)

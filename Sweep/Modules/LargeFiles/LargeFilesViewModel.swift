@@ -99,7 +99,7 @@ final class LargeFilesViewModel {
         let candidates = selectedFiles.map { DeletionCandidate(url: $0.url, size: $0.size, context: $0.kind.title) }
         guard !candidates.isEmpty else { return }
         pendingPlan = DeletionPlan(
-            title: "\(candidates.count) Dateien in den Papierkorb legen?",
+            title: "\(counted(candidates.count, "Datei", "Dateien")) in den Papierkorb legen?",
             message: "Die Dateien werden in den Papierkorb gelegt und lassen sich von dort wiederherstellen.",
             module: .largeFiles, action: .removedFiles, candidates: candidates
         )

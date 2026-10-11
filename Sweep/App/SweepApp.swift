@@ -26,10 +26,18 @@ struct SweepCommands: Commands {
 
     var body: some Commands {
         CommandGroup(after: .sidebar) {
-            ForEach(Array(SweepModule.allCases.prefix(9).enumerated()), id: \.element) { index, module in
+            ForEach(Array(SidebarSection.allCases.flatMap(\.modules).prefix(9).enumerated()), id: \.element) { index, module in
                 Button(module.title) { model.selection = module }
                     .keyboardShortcut(KeyEquivalent(Character("\(index + 1)")), modifiers: .command)
             }
+        }
+        CommandMenu("Scan") {
+            Button("Smart Scan starten") {
+                model.selection = .smartScan
+                model.smartScan.start()
+            }
+            .keyboardShortcut("s", modifiers: [.command, .shift])
+            .disabled(model.smartScan.phase == .scanning)
         }
         CommandGroup(replacing: .help) {
             Button("Einführung erneut anzeigen") { model.showOnboarding = true }

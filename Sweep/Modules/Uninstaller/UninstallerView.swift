@@ -13,6 +13,7 @@ struct UninstallerView: View {
                     Label("Neu laden", systemImage: "arrow.clockwise")
                 }
                 .disabled(viewModel.isLoading)
+                .keyboardShortcut("r", modifiers: .command)
             }
             .padding(Theme.pagePadding)
 

@@ -136,7 +136,7 @@ final class DuplicatesViewModel {
         }
         guard !candidates.isEmpty else { return }
         pendingPlan = DeletionPlan(
-            title: "\(candidates.count) Duplikate entfernen?",
+            title: "\(counted(candidates.count, "Duplikat", "Duplikate")) entfernen?",
             message: "Von jeder Gruppe bleibt mindestens eine Kopie erhalten. Die ausgewählten Kopien werden in den Papierkorb gelegt.",
             module: .duplicates, action: .removedFiles, candidates: candidates
         )

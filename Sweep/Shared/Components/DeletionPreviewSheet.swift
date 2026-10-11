@@ -32,7 +32,7 @@ struct DeletionPreviewSheet: View {
                         .fixedSize(horizontal: false, vertical: true)
                 }
                 Spacer()
-                BigNumber(bytes: allowedSize, caption: "\(allowed.count) Einträge", tint: plan.module.tint, size: 30)
+                BigNumber(bytes: allowedSize, caption: counted(allowed.count, "Eintrag", "Einträge"), tint: plan.module.tint, size: 30)
             }
             .padding(20)
 
@@ -50,12 +50,12 @@ struct DeletionPreviewSheet: View {
 
             VStack(alignment: .leading, spacing: 10) {
                 if blockedCount > 0 {
-                    Label("\(blockedCount) geschützte Einträge werden übersprungen.", systemImage: "lock.fill")
+                    Label("\(counted(blockedCount, "geschützter Eintrag wird", "geschützte Einträge werden")) übersprungen.", systemImage: "lock.fill")
                         .foregroundStyle(.orange)
                 }
                 if !permanent.isEmpty {
                     Toggle(isOn: $acknowledgedPermanent) {
-                        Text("Mir ist klar, dass \(permanent.count) Einträge aus dem Papierkorb **endgültig** gelöscht werden.")
+                        Text("Mir ist klar, dass \(counted(permanent.count, "Eintrag", "Einträge")) aus dem Papierkorb **endgültig** gelöscht \(permanent.count == 1 ? "wird" : "werden").")
                     }
                     .toggleStyle(.checkbox)
                 } else {
@@ -142,7 +142,7 @@ struct DeletionResultBanner: View {
                      : "\(ByteFormat.string(outcome.freedBytes)) in den Papierkorb gelegt")
                     .font(.headline)
                 Text(problems == 0
-                     ? "\(outcome.removedItems.count) Einträge entfernt. Leere den Papierkorb, um den Platz endgültig freizugeben."
+                     ? "\(counted(outcome.removedItems.count, "Eintrag", "Einträge")) entfernt. Leere den Papierkorb, um den Platz endgültig freizugeben."
                      : "\(outcome.removedItems.count) entfernt, \(problems) konnten nicht entfernt werden – Details im Protokoll.")
                     .font(.callout)
                     .foregroundStyle(.secondary)

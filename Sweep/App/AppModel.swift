@@ -20,6 +20,7 @@ final class AppModel {
     let duplicates: DuplicatesViewModel
     let largeFiles: LargeFilesViewModel
     let malware: MalwareViewModel
+    let smartScan: SmartScanViewModel
 
     static let isRunningTests = ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
 
@@ -38,6 +39,7 @@ final class AppModel {
         duplicates = DuplicatesViewModel(deletion: deletion, permissions: permissions)
         largeFiles = LargeFilesViewModel(deletion: deletion, permissions: permissions)
         malware = MalwareViewModel(deletion: deletion, permissions: permissions)
+        smartScan = SmartScanViewModel(junk: junk, largeFiles: largeFiles, duplicates: duplicates)
         malware.openInUninstaller = { [weak self] app in
             self?.uninstaller.select(appAt: app)
             self?.selection = .uninstaller
@@ -59,6 +61,8 @@ final class AppModel {
             duplicates.phase == .results && duplicates.totalWasted > 0 ? ByteFormat.string(duplicates.totalWasted) : nil
         case .largeFiles:
             largeFiles.phase == .results ? "\(largeFiles.visibleFiles.count)" : nil
+        case .smartScan:
+            smartScan.phase == .done && smartScan.summary.reclaimableBytes > 0 ? ByteFormat.string(smartScan.summary.reclaimableBytes) : nil
         case .malware:
             malware.phase == .results && malware.worstSeverity >= .medium ? "\(malware.count(.high) + malware.count(.medium))" : nil
         case .uninstaller:

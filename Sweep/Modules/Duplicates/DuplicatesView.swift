@@ -151,7 +151,7 @@ private struct DuplicateResults: View {
         VStack(spacing: 0) {
             HStack(alignment: .bottom, spacing: 28) {
                 BigNumber(bytes: viewModel.selectedSize, caption: "ausgewählt", tint: SweepModule.duplicates.tint)
-                BigNumber(bytes: viewModel.totalWasted, caption: "\(viewModel.duplicateFileCount) überzählige Kopien", size: 26)
+                BigNumber(bytes: viewModel.totalWasted, caption: counted(viewModel.duplicateFileCount, "überzählige Kopie", "überzählige Kopien"), size: 26)
                 Spacer()
                 Picker("Auswahl", selection: $viewModel.keepRule) {
                     ForEach(KeepRule.allCases) { Text($0.title).tag($0) }

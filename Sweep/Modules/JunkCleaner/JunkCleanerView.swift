@@ -13,6 +13,7 @@ struct JunkCleanerView: View {
                     } label: {
                         Label("Erneut scannen", systemImage: "arrow.clockwise")
                     }
+                    .keyboardShortcut("r", modifiers: .command)
                 }
             }
             .padding(Theme.pagePadding)
@@ -142,8 +143,14 @@ private struct JunkCategoryCard: View {
                     }
                 }
                 Spacer()
-                Text(ByteFormat.string(result.totalSize))
-                    .font(.system(.title3, design: .rounded).weight(.semibold).monospacedDigit())
+                if result.items.isEmpty {
+                    Text("nicht geprüft")
+                        .font(.callout)
+                        .foregroundStyle(.secondary)
+                } else {
+                    Text(ByteFormat.string(result.totalSize))
+                        .font(.system(.title3, design: .rounded).weight(.semibold).monospacedDigit())
+                }
                 Button {
                     withAnimation(Theme.spring) { viewModel.toggleExpanded(result.id) }
                 } label: {
@@ -236,7 +243,7 @@ struct UnreadableHint: View {
         HStack(spacing: 10) {
             Image(systemName: "lock.trianglebadge.exclamationmark")
                 .foregroundStyle(.orange)
-            Text("\(count) Bereiche konnten nicht gelesen werden. Mit Festplattenvollzugriff findet Sweep mehr.")
+            Text("\(counted(count, "Bereich konnte", "Bereiche konnten")) nicht gelesen werden. Mit Festplattenvollzugriff findet Sweep mehr.")
                 .font(.callout)
             Spacer()
             Button("Mehr erfahren", action: action)

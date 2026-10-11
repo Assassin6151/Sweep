@@ -13,6 +13,7 @@ struct LargeFilesView: View {
                     } label: {
                         Label("Erneut scannen", systemImage: "arrow.clockwise")
                     }
+                    .keyboardShortcut("r", modifiers: .command)
                 }
             }
             .padding(Theme.pagePadding)
@@ -53,7 +54,7 @@ private struct LargeFileResults: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
             HStack(alignment: .bottom, spacing: 28) {
-                BigNumber(bytes: viewModel.visibleSize, caption: "\(viewModel.visibleFiles.count) Dateien im Filter", tint: SweepModule.largeFiles.tint)
+                BigNumber(bytes: viewModel.visibleSize, caption: "\(counted(viewModel.visibleFiles.count, "Datei", "Dateien")) im Filter", tint: SweepModule.largeFiles.tint)
                 if !viewModel.selection.isEmpty {
                     BigNumber(bytes: viewModel.selectedSize, caption: "\(viewModel.selection.count) ausgewählt", size: 26)
                         .transition(.opacity)

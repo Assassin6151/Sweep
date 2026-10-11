@@ -30,6 +30,8 @@ struct ModuleContainer: View {
     var body: some View {
         Group {
             switch module {
+            case .smartScan:
+                SmartScanView()
             case .junk:
                 JunkCleanerView()
             case .uninstaller:
@@ -46,24 +48,10 @@ struct ModuleContainer: View {
                 ActivityLogView()
             case .permissions:
                 PermissionsView()
-            default:
-                ModulePlaceholderView(module: module)
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(.background)
         .navigationTitle(module.title)
-    }
-}
-
-struct ModulePlaceholderView: View {
-    let module: SweepModule
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            ModuleHeader(module: module)
-                .padding(Theme.pagePadding)
-            HeroState(module: module, title: "Bald verfügbar", message: module.subtitle) { EmptyView() }
-        }
     }
 }
