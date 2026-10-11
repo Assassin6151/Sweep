@@ -19,6 +19,7 @@ final class AppModel {
     let spaceMap: SpaceMapViewModel
     let duplicates: DuplicatesViewModel
     let largeFiles: LargeFilesViewModel
+    let malware: MalwareViewModel
 
     static let isRunningTests = ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
 
@@ -36,6 +37,11 @@ final class AppModel {
         spaceMap = SpaceMapViewModel(deletion: deletion, permissions: permissions)
         duplicates = DuplicatesViewModel(deletion: deletion, permissions: permissions)
         largeFiles = LargeFilesViewModel(deletion: deletion, permissions: permissions)
+        malware = MalwareViewModel(deletion: deletion, permissions: permissions)
+        malware.openInUninstaller = { [weak self] app in
+            self?.uninstaller.select(appAt: app)
+            self?.selection = .uninstaller
+        }
     }
 
     func completeOnboarding() {
@@ -53,6 +59,8 @@ final class AppModel {
             duplicates.phase == .results && duplicates.totalWasted > 0 ? ByteFormat.string(duplicates.totalWasted) : nil
         case .largeFiles:
             largeFiles.phase == .results ? "\(largeFiles.visibleFiles.count)" : nil
+        case .malware:
+            malware.phase == .results && malware.worstSeverity >= .medium ? "\(malware.count(.high) + malware.count(.medium))" : nil
         case .uninstaller:
             uninstaller.hasLoaded ? "\(uninstaller.apps.count)" : nil
         default:

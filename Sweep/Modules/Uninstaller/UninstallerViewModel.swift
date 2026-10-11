@@ -38,6 +38,7 @@ final class UninstallerViewModel {
     var lastOutcome: DeletionOutcome?
     var runningAppToQuit: InstalledApp?
     private var pendingAfterQuit: DeletionPlan?
+    private var pendingSelection: String?
 
     private let deletion: DeletionService
     private let permissions: PermissionService
@@ -96,7 +97,10 @@ final class UninstallerViewModel {
             apps = found
             isLoading = false
             hasLoaded = true
-            if selectedAppID == nil || !found.contains(where: { $0.id == selectedAppID }) {
+            if let pending = pendingSelection, found.contains(where: { $0.id == pending }) {
+                selectedAppID = pending
+                pendingSelection = nil
+            } else if selectedAppID == nil || !found.contains(where: { $0.id == selectedAppID }) {
                 selectedAppID = visibleApps.first?.id
             }
             measureSizes()
@@ -144,6 +148,18 @@ final class UninstallerViewModel {
             self.skippedLocations = result?.skippedLocations ?? 0
             self.selectedLeftovers = Set(self.leftovers.filter { $0.confidence == .high }.map(\.id))
             self.isSearchingLeftovers = false
+        }
+    }
+
+    /// Selects an app by its bundle location, loading the list first if needed.
+    func select(appAt url: URL) {
+        searchText = ""
+        onlyUnused = false
+        if hasLoaded, apps.contains(where: { $0.id == url.path }) {
+            selectedAppID = url.path
+        } else {
+            pendingSelection = url.path
+            loadIfNeeded()
         }
     }
 

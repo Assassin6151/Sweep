@@ -40,6 +40,8 @@ struct ModuleContainer: View {
                 DuplicatesView()
             case .largeFiles:
                 LargeFilesView()
+            case .malware:
+                MalwareView()
             case .activity:
                 ActivityLogView()
             case .permissions:
