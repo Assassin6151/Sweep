@@ -34,6 +34,8 @@ struct ModuleContainer: View {
                 JunkCleanerView()
             case .uninstaller:
                 UninstallerView()
+            case .spaceMap:
+                SpaceMapView()
             case .activity:
                 ActivityLogView()
             case .permissions:

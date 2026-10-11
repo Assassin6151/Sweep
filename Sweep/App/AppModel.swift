@@ -16,6 +16,7 @@ final class AppModel {
     let junk: JunkCleanerViewModel
     let activity: ActivityLogViewModel
     let uninstaller: UninstallerViewModel
+    let spaceMap: SpaceMapViewModel
 
     static let isRunningTests = ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
 
@@ -30,6 +31,7 @@ final class AppModel {
         junk = JunkCleanerViewModel(deletion: deletion, permissions: permissions)
         activity = ActivityLogViewModel(deletion: deletion)
         uninstaller = UninstallerViewModel(deletion: deletion, permissions: permissions)
+        spaceMap = SpaceMapViewModel(deletion: deletion, permissions: permissions)
     }
 
     func completeOnboarding() {
