@@ -32,6 +32,8 @@ struct ModuleContainer: View {
             switch module {
             case .junk:
                 JunkCleanerView()
+            case .uninstaller:
+                UninstallerView()
             case .activity:
                 ActivityLogView()
             case .permissions:

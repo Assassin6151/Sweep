@@ -15,6 +15,7 @@ final class AppModel {
 
     let junk: JunkCleanerViewModel
     let activity: ActivityLogViewModel
+    let uninstaller: UninstallerViewModel
 
     static let isRunningTests = ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
 
@@ -28,6 +29,7 @@ final class AppModel {
         deletion = DeletionService(log: activityLog)
         junk = JunkCleanerViewModel(deletion: deletion, permissions: permissions)
         activity = ActivityLogViewModel(deletion: deletion)
+        uninstaller = UninstallerViewModel(deletion: deletion, permissions: permissions)
     }
 
     func completeOnboarding() {
@@ -41,6 +43,8 @@ final class AppModel {
         switch module {
         case .junk:
             junk.phase == .results && junk.totalFound > 0 ? ByteFormat.string(junk.totalFound) : nil
+        case .uninstaller:
+            uninstaller.hasLoaded ? "\(uninstaller.apps.count)" : nil
         default:
             nil
         }
