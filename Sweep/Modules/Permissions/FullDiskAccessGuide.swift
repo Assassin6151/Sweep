@@ -31,6 +31,10 @@ struct FullDiskAccessGuide: View {
                 StepRow(number: 3, text: "Starte Sweep danach neu, damit macOS die Freigabe übernimmt.")
             }
 
+            if !permissions.hasFullDiskAccess {
+                StaleEntryHint(appPath: Bundle.main.bundleURL.path(percentEncoded: false))
+            }
+
             HStack(spacing: 10) {
                 Button {
                     permissions.openFullDiskAccessSettings()
@@ -76,6 +80,30 @@ private struct StatusBanner: View {
         .background((granted ? Color.green : Color.orange).opacity(0.12),
                     in: RoundedRectangle(cornerRadius: Theme.cornerRadius, style: .continuous))
         .animation(Theme.spring, value: granted)
+    }
+}
+
+/// macOS ties the permission to the exact signature of a build. A rebuilt or second copy of Sweep
+/// shows up under the same name in System Settings but is not covered by the old entry.
+private struct StaleEntryHint: View {
+    let appPath: String
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Label("Sweep ist eingeschaltet und trotzdem fehlt der Zugriff?", systemImage: "questionmark.circle")
+                .font(.headline)
+            Text("Dann gehört der Eintrag in der Liste zu einer anderen oder älteren Kopie von Sweep. Markiere „Sweep“ in der Liste, entferne den Eintrag mit „–“, füge über „+“ genau diese App hinzu, schalte sie ein und starte Sweep neu.")
+                .fixedSize(horizontal: false, vertical: true)
+            Text(appPath)
+                .font(.caption.monospaced())
+                .foregroundStyle(.secondary)
+                .textSelection(.enabled)
+                .lineLimit(2)
+                .truncationMode(.middle)
+        }
+        .padding(14)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(.quaternary.opacity(0.5), in: RoundedRectangle(cornerRadius: Theme.cornerRadius, style: .continuous))
     }
 }
 
