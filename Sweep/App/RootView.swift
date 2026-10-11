@@ -30,6 +30,10 @@ struct ModuleContainer: View {
     var body: some View {
         Group {
             switch module {
+            case .junk:
+                JunkCleanerView()
+            case .activity:
+                ActivityLogView()
             case .permissions:
                 PermissionsView()
             default:

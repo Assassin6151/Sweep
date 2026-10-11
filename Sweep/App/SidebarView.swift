@@ -23,7 +23,7 @@ struct SidebarView: View {
     }
 
     private func badge(for module: SweepModule) -> String? {
-        nil
+        model.badge(for: module)
     }
 }
 
