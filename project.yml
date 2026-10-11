@@ -1,0 +1,65 @@
+name: Sweep
+options:
+  bundleIdPrefix: com.assassin6151
+  deploymentTarget:
+    macOS: "14.0"
+  createIntermediateGroups: true
+  developmentLanguage: de
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    MACOSX_DEPLOYMENT_TARGET: "14.0"
+    MARKETING_VERSION: "1.0.0"
+    CURRENT_PROJECT_VERSION: "1"
+    DEVELOPMENT_TEAM: ""
+targets:
+  Sweep:
+    type: application
+    platform: macOS
+    sources:
+      - path: Sweep
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.assassin6151.sweep
+        PRODUCT_NAME: Sweep
+        INFOPLIST_FILE: Sweep/Resources/Info.plist
+        CODE_SIGN_ENTITLEMENTS: Sweep/Resources/Sweep.entitlements
+        CODE_SIGN_IDENTITY: "-"
+        CODE_SIGN_STYLE: Manual
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+        ENABLE_HARDENED_RUNTIME: NO
+        COMBINE_HIDPI_IMAGES: YES
+      configs:
+        Release:
+          ENABLE_HARDENED_RUNTIME: YES
+  SweepTests:
+    type: bundle.unit-test
+    platform: macOS
+    sources:
+      - path: SweepTests
+    dependencies:
+      - target: Sweep
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.assassin6151.sweep.tests
+        GENERATE_INFOPLIST_FILE: YES
+        CODE_SIGN_IDENTITY: "-"
+        CODE_SIGN_STYLE: Manual
+        BUNDLE_LOADER: $(TEST_HOST)
+        TEST_HOST: $(BUILT_PRODUCTS_DIR)/Sweep.app/Contents/MacOS/Sweep
+schemes:
+  Sweep:
+    build:
+      targets:
+        Sweep: all
+        SweepTests: [test]
+    run:
+      config: Debug
+    test:
+      config: Debug
+      gatherCoverageData: true
+      targets:
+        - SweepTests
+    archive:
+      config: Release

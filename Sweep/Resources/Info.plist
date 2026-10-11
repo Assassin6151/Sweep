@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>de</string>
+	<key>CFBundleDisplayName</key>
+	<string>Sweep</string>
+	<key>CFBundleExecutable</key>
+	<string>$(EXECUTABLE_NAME)</string>
+	<key>CFBundleIdentifier</key>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>$(PRODUCT_NAME)</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>$(MARKETING_VERSION)</string>
+	<key>CFBundleVersion</key>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>LSApplicationCategoryType</key>
+	<string>public.app-category.utilities</string>
+	<key>LSMinimumSystemVersion</key>
+	<string>$(MACOSX_DEPLOYMENT_TARGET)</string>
+	<key>NSHumanReadableCopyright</key>
+	<string>© 2026 Sweep</string>
+	<key>NSDocumentsFolderUsageDescription</key>
+	<string>Sweep durchsucht deinen Dokumente-Ordner nach großen, alten und doppelten Dateien. Es wird nichts ohne deine Bestätigung verändert.</string>
+	<key>NSDesktopFolderUsageDescription</key>
+	<string>Sweep durchsucht deinen Schreibtisch nach großen, alten und doppelten Dateien. Es wird nichts ohne deine Bestätigung verändert.</string>
+	<key>NSDownloadsFolderUsageDescription</key>
+	<string>Sweep durchsucht deinen Downloads-Ordner nach großen, alten und doppelten Dateien. Es wird nichts ohne deine Bestätigung verändert.</string>
+	<key>NSRemovableVolumesUsageDescription</key>
+	<string>Sweep kann auf Wunsch auch externe Laufwerke analysieren.</string>
+	<key>NSNetworkVolumesUsageDescription</key>
+	<string>Sweep kann auf Wunsch auch Netzlaufwerke analysieren.</string>
+	<key>NSAppleEventsUsageDescription</key>
+	<string>Sweep liest über „System Events“ die Liste deiner Anmeldeobjekte, um verdächtige Einträge zu finden. Es werden keine Einstellungen verändert.</string>
+</dict>
+</plist>
